@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape">
+    <title>QA Hunt: Merch Store Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="qa-game-container">
+        
+        <div class="game-header">
+            <div class="header-left">
+                <span class="system-status">SYSTEM_STATUS: <strong id="bugs-fixed">0/10 LOGS</strong></span>
+            </div>
+            <div class="header-right">
+                <span class="countdown-timer">TIME_LEFT: <strong id="time-left">03:00</strong></span>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            
+            <div class="phone-screen-landscape">
+                
+                <div class="app-top-banner">
+                    <div class="user-profile">
+                        <div class="user-avatar bug-element" data-bug="avatar-shape">🦁</div>
+                        <div class="user-info">
+                            <span class="user-name">Абитуриент</span>
+                            <span class="user-id">id 174536</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-balance">
+                        <span class="balance-count">200</span>
+                        <span class="coin-icon">🪙</span>
+                    </div>
+                    
+                    <div class="pixel-dither-border"></div>
+                </div>
+
+                <div class="store-content">
+                    
+                    <div class="store-nav-zone">
+                        <h2 class="store-title bug-element" data-bug="title-jitter">Магазин мерча_</h2>
+                        
+                        <div class="store-tabs bug-element" data-bug="tab-displace">
+                            <span class="tab-item active">Все</span>
+                            <span class="tab-item">Одежда</span>
+                            <span class="tab-item">Сувениры</span>
+                            <div class="tab-indicator"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="items-grid">
+                        <div class="merch-card">
+                            <div class="card-preview">🦁</div>
+                            <div class="card-details">
+                                <span class="card-title">Фигурка Лев</span>
+                                <span class="card-cost">400 🪙</span>
+                                <!-- БАГ №2: Сломанный padding (текст уехал) -->
+                                <button class="exchange-btn bug-element" data-bug="btn-padding">Обменять</button>
+                            </div>
+                        </div>
+
+                        <div class="merch-card">
+                            <div class="card-preview">🍪</div>
+                            <div class="card-details">
+                                <span class="card-title bug-element" data-bug="font-regression" id="cookie-title">Печенье ФТИ</span>
+                                
+                                <span class="card-desc bug-element" data-bug="text-crunch">Спекли на кафедре</span>
+                                
+                                <span class="card-cost">50 🪙</span>
+                                <button class="exchange-btn bug-element" data-bug="btn-contrast" id="cookie-btn">Обменять</button>
+                            </div>
+                        </div>
+
+                        <div class="merch-card">
+                            <div class="card-preview">🧥</div>
+                            <div class="card-details">
+                                <span class="card-title">Худи Оверсейз</span>
+                                <!-- БАГ №7: Сбой вычислений, цена в NaN -->
+                                <span class="card-cost bug-element" data-bug="price-nan" id="hoodie-price">NaN 🪙</span>
+                                <!-- БАГ №9: Текст кнопки написан в нижнем регистре вместо UPPERCASE -->
+                                <button class="exchange-btn bug-element" data-bug="btn-case" id="hoodie-btn">обменять</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="rogue-pixel bug-element" data-bug="rogue-pixel"></div>
+
+            </div>
+
+            <div class="devtools-sidebar" id="devtools">
+                <div class="devtools-sidebar-header">
+                    <span>⚙️ Elements / Styles</span>
+                    <button class="close-sidebar-btn" id="close-tools">✕</button>
+                </div>
+                <div class="devtools-sidebar-body">
+                    <p class="selector-preview">Selected: <span id="selected-element-name">none</span></p>
+                    <div id="controls-zone"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="end-screen welcome-style active" id="welcome-screen">
+            <div class="end-content">
+                <h2>QA HUNT: MERCH EDITION</h2>
+                <p>В интерфейсе магазина мерча обнаружено 10 технических ошибок сборки и несоответствий дизайн-макету.
+                <br><br>
+                Необходимо исследовать элементы приложения, проанализировать свойства в панели инспектора и исправить все дефекты.
+                <br><br>
+                Время на выполнение задачи ограниченно: 3 минуты.</p>
+                <button class="action-game-btn" id="start-game-btn">Начать охоту</button>
+            </div>
+        </div>
+
+        <div class="end-screen win-style" id="win-screen">
+            <div class="end-content">
+                <h2>BUILD SUCCESS 🎉</h2>
+                <p>Все 10 скрытых багов устранены. Проект готов к демо-дню.</p>
+                <button class="action-game-btn" id="win-done-btn">Отлично!</button>
+            </div>
+        </div>
+
+        <div class="end-screen lose-style" id="lose-screen">
+            <div class="end-content">
+                <h2>BUILD FAILED (TIMEOUT) ❌</h2>
+                <p>Время вышло. Невыпущенные баги ушли в продакшн.</p>
+                <button class="action-game-btn" id="lose-done-btn">Получится в другой раз!</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
