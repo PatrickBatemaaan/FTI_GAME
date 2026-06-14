@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape">
+    <title>Advanced UI/UX Architect: Systems Layout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="qa-game-container">
+        
+        <div class="game-header">
+            <div class="header-left">
+                <span class="system-status">ENGINE: <strong style="color: #38bdf8;">UX_ANALYTICS_V2</strong></span>
+            </div>
+            <div class="header-right">
+                <span class="countdown-timer">TIME_LEFT: <strong id="time-left">03:00</strong></span>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            
+            <div class="control-side-panel">
+                <div class="spec-card">
+                    <h3>КРИТЕРИИ ТЗ И ЮЗАБИЛИТИ</h3>
+                    <p>Спроектировать высококонверсионную карточку блюда:</p>
+                    <ul>
+                        <li>Главный визуальный якорь (Изображение) — в самый верх.</li>
+                        <li>Название должно предварять финансовые операнды.</li>
+                        <li>Селектор количества должен быть связан с ценой или кнопкой действия (Закон близости).</li>
+                        <li>Все 5 слотов должны быть заполнены функциональными блоками.</li>
+                    </ul>
+                </div>
+
+                <div class="inventory-section">
+                    <h4>КОМПОНЕНТЫ ДЛЯ СБОРКИ</h4>
+                    <div class="components-inventory" id="inventory">
+                        <div class="ux-component" draggable="true" data-comp="comp-image">ImageBox (Фото)</div>
+                        <div class="ux-component" draggable="true" data-comp="comp-title">ProductTitle (Название)</div>
+                        <div class="ux-component" draggable="true" data-comp="comp-counter">QuantityCounter (+/-)</div>
+                        <div class="ux-component" draggable="true" data-comp="comp-price">PriceTag (Цена)</div>
+                        <div class="ux-component" draggable="true" data-comp="comp-button">Button (В корзину)</div>
+                        <div class="ux-component" draggable="true" data-comp="comp-badge">PromoBadge (Стикер)</div>
+                        <div class="ux-component distractor" draggable="true" data-comp="comp-banner">BannerAds (Реклама)</div>
+                        <div class="ux-component distractor" draggable="true" data-comp="comp-spacer">UI-Spacer (Отступ)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="phone-workspace-zone">
+                <div class="blueprint-phone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen-grid" id="phone-grid">
+                        <div class="ux-drop-slot" data-slot="1"><span class="slot-placeholder">Слот 1: Визуальный фокус</span></div>
+                        <div class="ux-drop-slot" data-slot="2"><span class="slot-placeholder">Слот 2: Контекст</span></div>
+                        <div class="ux-drop-slot" data-slot="3"><span class="slot-placeholder">Слот 3: Интерактив</span></div>
+                        <div class="ux-drop-slot" data-slot="4"><span class="slot-placeholder">Слот 4: Калькуляция</span></div>
+                        <div class="ux-drop-slot" data-slot="5"><span class="slot-placeholder">Слот 5: Завершение флоу</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="validation-sidebar">
+                <div class="sidebar-header-title">LIVE UX DASHBOARD</div>
+                
+                <div class="metrics-dashboard">
+                    <div class="metric-item">
+                        <span class="metric-label">CONVERSION:</span>
+                        <div class="metric-bar-container"><div class="metric-bar progress-conversion" id="bar-conversion" style="width: 0%"></div></div>
+                        <span class="metric-value" id="val-conversion">0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">COG_LOAD:</span>
+                        <div class="metric-bar-container"><div class="metric-bar progress-load" id="bar-load" style="width: 0%"></div></div>
+                        <span class="metric-value" id="val-load">0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ACCESSIBILITY:</span>
+                        <div class="metric-bar-container"><div class="metric-bar progress-a11y" id="bar-a11y" style="width: 0%"></div></div>
+                        <span class="metric-value" id="val-a11y">0%</span>
+                    </div>
+                </div>
+
+                <div class="validation-body">
+                    <button class="validate-layout-btn" id="validate-btn">Компилировать макет</button>
+                    <div class="terminal-logs" id="terminal-output">
+                        <div class="log-line system">> Анализатор интерфейсов готов.</div>
+                    </div>
+                    <button class="clear-layout-btn" id="clear-btn">Сбросить сетку</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="orientation-warning">
+            <div class="warning-animation">🔄</div>
+            <p>Пожалуйста, переверните устройство в ландшафтный режим для работы с архитектурой макета</p>
+        </div>
+
+        <div class="end-screen welcome-style active" id="welcome-screen">
+            <div class="end-content">
+                <h2>ADVANCED UI/UX ARCHITECTURE: SYSTEMS DESIGNER</h2>
+                <p>Добро пожаловать в симулятор проектирования высоконагруженных интерфейсов систем электронной коммерции.
+                <br><br>
+                Ваша задача: собрать рабочую структуру карточки товара мобильного приложения. Все 5 операционных слотов должны быть заполнены. Использованные компоненты пропадают из панели доступных элементов.
+                <br><br>
+                Время на проектирование и симуляцию: 3 минуты.</p>
+                <button class="action-game-btn" id="start-game-btn">Запустить симулятор</button>
+            </div>
+        </div>
+
+        <div class="end-screen win-style" id="win-screen">
+            <div class="end-content">
+                <h2>LAYOUT OPTIMIZED 🎉</h2>
+                <p>Сборка интерфейса завершена успешно. Метрики эффективности соответствуют целевым показателям дизайн-системы.</p>
+                <button class="action-game-btn" id="win-done-btn">Зафиксировать результат</button>
+            </div>
+        </div>
+
+        <div class="end-screen lose-style" id="lose-screen">
+            <div class="end-content">
+                <h2>CRITICAL UX FAILURE ❌</h2>
+                <p>Время проектирования истекло или макет не прошел автоматическое тестирование.</p>
+                <button class="action-game-btn" id="lose-done-btn">Перезапустить сессию</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

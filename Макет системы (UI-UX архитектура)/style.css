@@ -1,0 +1,213 @@
+/* Базовый ландшафтный каркас */
+#qa-game-container {
+    position: relative;
+    width: 100%;
+    max-width: 840px;
+    height: 100vh;
+    max-height: 440px;
+    margin: 0 auto;
+    background: #09090b;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #1c1c1f;
+    box-sizing: border-box;
+}
+
+#qa-game-container .game-header {
+    height: 30px;
+    background: #18181b;
+    border-bottom: 2px solid #27272a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    font-family: monospace;
+    font-size: 11px;
+}
+#qa-game-container .countdown-timer strong { color: #f43f5e; }
+
+#qa-game-container .main-layout {
+    flex: 1;
+    display: flex;
+    background: #09090b;
+    height: calc(100% - 30px);
+}
+
+/* Левая рабочая панель */
+#qa-game-container .control-side-panel {
+    width: 250px;
+    border-right: 2px solid #27272a;
+    display: flex;
+    flex-direction: column;
+    background: #121214;
+    box-sizing: border-box;
+}
+#qa-game-container .spec-card {
+    padding: 8px 12px;
+    background: #18181b;
+    border-bottom: 1px solid #27272a;
+}
+#qa-game-container .spec-card h3 { margin: 0 0 4px 0; font-size: 10px; color: #a1a1aa; font-family: monospace; }
+#qa-game-container .spec-card p { margin: 0 0 4px 0; font-size: 10px; color: #f4f4f5; line-height: 1.2; }
+#qa-game-container .spec-card ul { margin: 0; padding-left: 12px; font-size: 9px; color: #d4d4d8; line-height: 1.3; }
+
+#qa-game-container .inventory-section { padding: 8px 12px; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#qa-game-container .inventory-section h4 { margin: 0 0 6px 0; font-size: 10px; color: #a1a1aa; font-family: monospace; }
+#qa-game-container .components-inventory {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    overflow-y: auto;
+}
+
+/* Компоненты */
+#qa-game-container .ux-component {
+    background: #27272a;
+    border: 1px solid #3f3f46;
+    border-radius: 4px;
+    padding: 6px 2px;
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    color: #e4e4e7;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+#qa-game-container .ux-component:active { cursor: grabbing; opacity: 0.6; }
+#qa-game-container .ux-component.distractor { border-color: #581c87; color: #d8b4fe; }
+#qa-game-container .ux-component.selected { border-color: #38bdf8; background: #1e3a8a; }
+
+/* КЛЮЧЕВОЙ КЛАСС ФИКСА: если компонент использован в макете, он полностью пропадает из списка */
+#qa-game-container .ux-component.in-use {
+    display: none !important;
+}
+
+/* Центр: Смартфон */
+#qa-game-container .phone-workspace-zone {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #141416;
+    background-image: linear-gradient(rgba(39,39,42,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(39,39,42,0.15) 1px, transparent 1px);
+    background-size: 10px 10px;
+}
+#qa-game-container .blueprint-phone {
+    width: 190px;
+    height: 360px;
+    background: #09090b;
+    border: 3px solid #38bdf8;
+    border-radius: 20px;
+    position: relative;
+    padding: 18px 8px 8px 8px;
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.12);
+    box-sizing: border-box;
+}
+#qa-game-container .phone-notch {
+    position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+    width: 50px; height: 8px; background: #38bdf8; border-radius: 4px;
+}
+#qa-game-container .phone-screen-grid {
+    width: 100%; height: 100%; display: flex; flex-direction: column; gap: 4px;
+}
+
+/* Слоты */
+#qa-game-container .ux-drop-slot {
+    flex: 1;
+    border: 1px dashed #3f3f46;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(24, 24, 27, 0.5);
+    position: relative;
+    transition: all 0.15s ease;
+    overflow: hidden;
+}
+#qa-game-container .ux-drop-slot.hovered { background: rgba(56, 189, 248, 0.12); border-color: #38bdf8; }
+#qa-game-container .slot-placeholder { font-size: 8px; color: #52525b; font-family: monospace; pointer-events: none; text-align: center; }
+
+/* Кастомный рендеринг блоков внутри слотов смартфона */
+#qa-game-container .ux-drop-slot .ux-component { width: 100%; height: 100%; border: none; border-radius: 0; background: transparent; cursor: pointer; }
+#qa-game-container .ux-drop-slot[data-filled="true"] { border-style: solid; border-color: #52525b; }
+#qa-game-container .ux-drop-slot .ux-component[data-comp="comp-image"] { background: #1e3a8a; color: #93c5fd; }
+#qa-game-container .ux-drop-slot .ux-component[data-comp="comp-title"] { background: #064e3b; color: #6ee7b7; }
+#qa-game-container .ux-drop-slot .ux-component[data-comp="comp-counter"] { background: #1e1b4b; color: #c084fc; border: 1px solid #4c1d95; }
+#qa-game-container .ux-drop-slot .ux-component[data-comp="comp-price"] { background: #78350f; color: #fde047; }
+#qa-game-container .ux-drop-slot .ux-component[data-comp="comp-button"] { background: #9d174d; color: #fbcfe8; }
+#qa-game-container .ux-drop-slot .ux-component[data-comp="comp-badge"] { background: #0369a1; color: #7dd3fc; }
+#qa-game-container .ux-drop-slot .ux-component.distractor { background: #4c1d95; color: #e9d5ff; }
+
+/* Правая панель с живым дашбордом метрик */
+#qa-game-container .validation-sidebar {
+    width: 240px;
+    border-left: 2px solid #27272a;
+    background: #121214;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+#qa-game-container .metrics-dashboard {
+    padding: 10px 12px;
+    background: #18181b;
+    border-bottom: 1px solid #27272a;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#qa-game-container .metric-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: monospace;
+    font-size: 9px;
+}
+#qa-game-container .metric-label { color: #a1a1aa; width: 85px; }
+#qa-game-container .metric-bar-container {
+    flex: 1; height: 6px; background: #27272a; border-radius: 3px; margin: 0 8px; overflow: hidden; position: relative;
+}
+#qa-game-container .metric-bar { height: 100%; width: 0%; transition: width 0.3s ease; }
+#qa-game-container .progress-conversion { background: #10b981; }
+#qa-game-container .progress-load { background: #ef4444; }
+#qa-game-container .progress-a11y { background: #38bdf8; }
+#qa-game-container .metric-value { color: #fff; font-weight: bold; width: 28px; text-align: right; }
+
+#qa-game-container .validation-body { padding: 10px; flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+#qa-game-container .validate-layout-btn { background: #38bdf8; color: #000; border: none; padding: 8px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+#qa-game-container .validate-layout-btn:hover { background: #7dd3fc; }
+#qa-game-container .clear-layout-btn { background: #27272a; color: #a1a1aa; border: 1px solid #3f3f46; padding: 5px; border-radius: 4px; cursor: pointer; font-size: 9px; font-family: monospace; }
+
+#qa-game-container .terminal-logs {
+    flex: 1; background: #09090b; border: 1px solid #27272a; border-radius: 4px; padding: 6px; font-family: monospace; font-size: 9px; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; box-sizing: border-box;
+}
+#qa-game-container .log-line { color: #e4e4e7; line-height: 1.2; }
+#qa-game-container .log-line.system { color: #71717a; }
+#qa-game-container .log-line.error { color: #f43f5e; }
+#qa-game-container .log-line.success { color: #4ade80; }
+
+/* Шторка блокировки */
+#qa-game-container .orientation-warning {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #09090b; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: monospace; text-align: center; padding: 20px; box-sizing: border-box;
+}
+@media (orientation: portrait) { #qa-game-container .orientation-warning { display: flex; } }
+#qa-game-container .warning-animation { font-size: 40px; animation: rotateDevice 2s infinite ease-in-out; }
+@keyframes rotateDevice { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
+
+/* Экраны состояний */
+#qa-game-container .end-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+#qa-game-container .end-screen.active { opacity: 1; visibility: visible; }
+#qa-game-container .end-content { text-align: center; padding: 20px; border-radius: 8px; background: #09090b; border: 2px solid #27272a; max-width: 460px; }
+
+#qa-game-container .welcome-style { background: rgba(9, 9, 11, 0.98); }
+#qa-game-container .welcome-style h2 { color: #38bdf8; font-family: monospace; margin: 0 0 10px 0; font-size: 15px; }
+#qa-game-container .welcome-style p { text-align: left; line-height: 1.4; color: #a1a1aa; font-size: 11px; }
+
+#qa-game-container .win-style { background: rgba(0, 0, 0, 0.9); }
+#qa-game-container .win-style h2 { color: #4ade80; font-family: monospace; }
+#qa-game-container .lose-style { background: rgba(20, 5, 10, 0.95); }
+#qa-game-container .lose-style h2 { color: #f43f5e; font-family: monospace; }
+#qa-game-container .action-game-btn { background: #ffffff; color: #000000; border: none; padding: 8px 16px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 10px; text-transform: uppercase; margin-top: 10px; }
