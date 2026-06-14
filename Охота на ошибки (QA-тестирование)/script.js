@@ -1,160 +1,200 @@
 (function() {
+    // Состояние игры
     const state = {
+        timeLeft: 180, // 3 минуты на симуляцию
+        timerId: null,
+        activeBugId: null,
         fixedBugs: new Set(),
-        totalBugs: 10, // Насчитываем 10 логов
-        activeBug: null,
-        timeLeft: 180,
-        timerId: null
+        totalBugs: 10
     };
 
-    const bugDatabase = {
-        'title-jitter': {
-            name: 'h2.store-title { animation }',
-            html: `<div class="control-group"><label>Анимация дрожания:</label><button id="fix-jitter-btn" class="devtools-input-btn">set animation: none</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-jitter-btn').addEventListener('click', () => {
-                    target.style.animation = 'none';
-                    fix('title-jitter', target);
-                });
-            }
-        },
-        'btn-padding': {
-            name: 'button.exchange-btn { padding }',
-            html: `<div class="control-group"><label>Внутренние отступы:</label><button id="fix-padding-btn" class="devtools-input-btn">Reset padding: 5px 10px</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-padding-btn').addEventListener('click', () => {
-                    target.style.padding = '5px 10px';
-                    fix('btn-padding', target);
-                });
-            }
-        },
-        'font-regression': {
-            name: '#cookie-title { font-family }',
-            html: `<div class="control-group"><label>Шрифт заголовка карточки:</label><button id="fix-font-btn" class="devtools-input-btn">Reset to Global Font</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-font-btn').addEventListener('click', () => {
-                    fix('font-regression', target);
-                });
-            }
-        },
-        'btn-contrast': {
-            name: 'button#cookie-btn { color }',
-            html: `<div class="control-group"><label>Контрастность текста:</label><button id="fix-contrast-btn" class="devtools-input-btn">set color: #ffffff</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-contrast-btn').addEventListener('click', () => {
-                    target.style.color = '#ffffff';
-                    fix('btn-contrast', target);
-                });
-            }
-        },
-        'rogue-pixel': {
-            name: 'div.rogue-pixel { DOM artifact }',
-            html: `<div class="control-group"><label>Артефакт отрисовки:</label><button id="fix-pixel-btn" class="devtools-input-btn">display: none</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-pixel-btn').addEventListener('click', () => {
-                    target.style.display = 'none';
-                    fix('rogue-pixel', target);
-                });
-            }
-        },
-        'tab-displace': {
-            name: 'div.tab-indicator { position-error }',
-            html: `<div class="control-group"><label>Позиция нижнего подчеркивания:</label><button id="fix-tab-btn" class="devtools-input-btn">set left: 0px (Выровнять)</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-tab-btn').addEventListener('click', () => {
-                    target.querySelector('.tab-indicator').style.left = '0px';
-                    fix('tab-displace', target);
-                });
-            }
-        },
-        'price-nan': {
-            name: 'span#hoodie-price { parsing-fail }',
-            html: `<div class="control-group"><label>Data format fallback:</label><button id="fix-nan-btn" class="devtools-input-btn">Parse String to Integer (800 🪙)</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-nan-btn').addEventListener('click', () => {
-                    target.innerText = '800 🪙';
-                    fix('price-nan', target);
-                });
-            }
-        },
-        'text-crunch': {
-            name: 'span.card-desc { letter-spacing }',
-            html: `<div class="control-group"><label>Межсимвольный интервал:</label><button id="fix-crunch-btn" class="devtools-input-btn">set letter-spacing: normal</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-crunch-btn').addEventListener('click', () => {
-                    target.style.letterSpacing = 'normal';
-                    fix('text-crunch', target);
-                });
-            }
-        },
-        // НОВЫЙ БАГ №9: Регистр текста кнопки
-        'btn-case': {
-            name: 'button#hoodie-btn { text-transform }',
-            html: `<div class="control-group"><label>Регистр текста (Design System):</label><button id="fix-case-btn" class="devtools-input-btn">set text-transform: uppercase</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-case-btn').addEventListener('click', () => {
-                    // ИспользуемsetProperty, чтобы перебить !important из CSS-файла бага
-                    target.style.setProperty('text-transform', 'uppercase', 'important');
-                    target.innerText = 'ОБМЕНЯТЬ';
-                    fix('btn-case', target);
-                });
-            }
-        },
-        // НОВЫЙ БАГ №10: Геометрия аватара
-        'avatar-shape': {
-            name: 'div.user-avatar { border-radius }',
-            html: `<div class="control-group"><label>Искажение пропорций контейнера:</label><button id="fix-avatar-btn" class="devtools-input-btn">set border-radius: 50% (Круг)</button></div>`,
-            onInit: (target, fix) => {
-                document.getElementById('fix-avatar-btn').addEventListener('click', () => {
-                    target.style.borderRadius = '50%';
-                    fix('avatar-shape', target);
-                });
-            }
-        }
-    };
-
-    const devtools = document.getElementById('devtools');
-    const selectedName = document.getElementById('selected-element-name');
-    const controlsZone = document.getElementById('controls-zone');
-    const bugsFixedDisplay = document.getElementById('bugs-fixed');
-    const timerDisplay = document.getElementById('time-left');
+    // Элементы интерфейса
     const welcomeScreen = document.getElementById('welcome-screen');
     const winScreen = document.getElementById('win-screen');
     const loseScreen = document.getElementById('lose-screen');
+    const timerDisplay = document.getElementById('time-left');
+    const progressDisplay = document.getElementById('progress-count');
+    
+    // Элементы панели инспектора (DevTools)
+    const inspectorPanel = document.getElementById('inspector-panel');
+    const bugTitle = document.getElementById('bug-title');
+    const bugControls = document.getElementById('bug-controls');
 
-    document.querySelectorAll('.bug-element').forEach(el => {
-        el.addEventListener('click', (e) => {
+    // База данных багов: шаблоны управления и условия их исправления
+    const bugDatabase = {
+        'bug-letter-spacing': {
+            title: 'Синтаксический баг: Избыточный letter-spacing',
+            render: () => `<label>letterSpacing (px):</label><input type="range" id="fix-input" min="0" max="20" value="16">`,
+            init: (element, onFix) => {
+                const input = document.getElementById('fix-input');
+                input.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    element.style.letterSpacing = `${val}px`; // Валидный JS camelCase
+                    if (parseInt(val) <= 1) onFix();
+                });
+            }
+        },
+        'bug-font-size': {
+            title: 'Сломанная иерархия: Экстремальный размер заголовка',
+            render: () => `<label>font-size (px):</label><input type="range" id="fix-input" min="12" max="80" value="72">`,
+            init: (element, onFix) => {
+                const input = document.getElementById('fix-input');
+                input.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    element.style.fontSize = `${val}px`;
+                    if (parseInt(val) >= 20 && parseInt(val) <= 28) onFix();
+                });
+            }
+        },
+        'bug-flex-spacing': {
+            title: 'Смещение сетки: Перекрытие элементов через justify-content',
+            render: () => `
+                <label>justify-content:</label>
+                <select id="fix-input">
+                    <option value="space-between" selected>space-between</option>
+                    <option value="center">center</option>
+                    <option value="flex-start">flex-start</option>
+                </select>`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('change', (e) => {
+                    element.style.justifyContent = e.target.value;
+                    if (e.target.value === 'center') onFix();
+                });
+            }
+        },
+        'bug-color-contrast': {
+            title: 'Нарушение accessibility: Нечитаемый серый текст на сером фоне',
+            render: () => `<label>Цвет текста:</label><input type="color" id="fix-input" value="#888888">`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('input', (e) => {
+                    element.style.color = e.target.value;
+                    if (e.target.value.toLowerCase() === '#ffffff' || e.target.value.toLowerCase() === '#000000') onFix();
+                });
+            }
+        },
+        'bug-opacity': {
+            title: 'Рендеринг: Элемент случайно скрыт через непрозрачность',
+            render: () => `<label>opacity:</label><input type="range" id="fix-input" min="0" max="1" step="0.1" value="0">`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('input', (e) => {
+                    element.style.opacity = e.target.value;
+                    if (parseFloat(e.target.value) >= 0.9) onFix();
+                });
+            }
+        },
+        'bug-padding': {
+            title: 'Плохой UX: Слишком мелкая кликабельная зона кнопки',
+            render: () => `<label>padding (px):</label><input type="range" id="fix-input" min="2" max="24" value="2">`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('input', (e) => {
+                    element.style.padding = `${e.target.value}px`;
+                    if (parseInt(e.target.value) >= 12) onFix();
+                });
+            }
+        },
+        'bug-border-radius': {
+            title: 'Геометрия: Острые углы элемента ломают гайдлайны скруглений',
+            render: () => `<label>border-radius (px):</label><input type="range" id="fix-input" min="0" max="30" value="0">`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('input', (e) => {
+                    element.style.borderRadius = `${e.target.value}px`;
+                    if (parseInt(e.target.value) >= 8 && parseInt(e.target.value) <= 16) onFix();
+                });
+            }
+        },
+        'bug-width': {
+            title: 'Адаптивность: Фиксированная ширина ломает контейнер',
+            render: () => `
+                <label>width:</label>
+                <select id="fix-input">
+                    <option value="600px" selected>600px</option>
+                    <option value="100%">100%</option>
+                    <option value="auto">auto</option>
+                </select>`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('change', (e) => {
+                    element.style.width = e.target.value;
+                    if (e.target.value === '100%' || e.target.value === 'auto') onFix();
+                });
+            }
+        },
+        'bug-z-index': {
+            title: 'Слои: Всплывающая подсказка перекрыта нижним блоком',
+            render: () => `<label>z-index:</label><input type="number" id="fix-input" value="0">`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('input', (e) => {
+                    element.style.zIndex = e.target.value;
+                    if (parseInt(e.target.value) >= 10) onFix();
+                });
+            }
+        },
+        'bug-text-transform': {
+            title: 'Контентный баг: Капслок в описании ошибки',
+            render: () => `
+                <label>text-transform:</label>
+                <select id="fix-input">
+                    <option value="uppercase" selected>uppercase</option>
+                    <option value="none">none</option>
+                    <option value="capitalize">capitalize</option>
+                </select>`,
+            init: (element, onFix) => {
+                document.getElementById('fix-input').addEventListener('change', (e) => {
+                    element.style.textTransform = e.target.value;
+                    if (e.target.value === 'none') onFix();
+                });
+            }
+        }
+    };
+
+    // Слушатель кликов по элементам с багами
+    document.querySelectorAll('[data-bug]').forEach(element => {
+        element.addEventListener('click', (e) => {
             e.stopPropagation();
-            const bugId = el.getAttribute('data-bug');
-            if (state.fixedBugs.has(bugId)) return;
+            const bugId = element.getAttribute('data-bug');
+            if (state.fixedBugs.has(bugId)) return; // Игнорируем уже исправленное
 
-            state.activeBug = bugId;
-            selectedName.innerText = bugDatabase[bugId].name;
-            controlsZone.innerHTML = bugDatabase[bugId].html;
-            devtools.classList.add('open');
-
-            bugDatabase[bugId].onInit(el, markFixed);
+            state.activeBugId = bugId;
+            openInspector(bugId, element);
         });
     });
 
-    document.getElementById('close-tools').addEventListener('click', () => {
-        devtools.classList.remove('open');
-    });
+    // Открытие панели инспектора
+    function openInspector(bugId, element) {
+        const config = bugDatabase[bugId];
+        if (!config) return;
 
-    function markFixed(bugId, element) {
-        if (!state.fixedBugs.has(bugId)) {
+        inspectorPanel.classList.add('open');
+        bugTitle.innerText = config.title;
+        bugControls.innerHTML = config.render();
+
+        config.init(element, () => {
+            // Callback успешного исправления бага
             state.fixedBugs.add(bugId);
-            element.classList.add('fixed');
-            bugsFixedDisplay.innerText = `${state.fixedBugs.size}/${state.totalBugs} LOGS`;
-            devtools.classList.remove('open');
+            element.removeAttribute('data-bug');
+            element.classList.add('bug-resolved');
+            inspectorPanel.classList.remove('open');
+            
+            updateProgress();
+            checkWinCondition();
+        });
+    }
 
-            if (state.fixedBugs.size === state.totalBugs) {
-                clearInterval(state.timerId);
-                setTimeout(() => winScreen.classList.add('active'), 300);
-            }
+    // Обновление счетчика
+    function updateProgress() {
+        progressDisplay.innerText = `${state.fixedBugs.size} / ${state.totalBugs}`;
+    }
+
+    // Проверка победы
+    function checkWinCondition() {
+        if (state.fixedBugs.size === state.totalBugs) {
+            clearInterval(state.timerId);
+            setTimeout(() => {
+                winScreen.classList.add('active');
+            }, 500);
         }
     }
 
+    // Таймер игры
     function startTimer() {
         state.timerId = setInterval(() => {
             state.timeLeft--;
@@ -164,25 +204,37 @@
 
             if (state.timeLeft <= 0) {
                 clearInterval(state.timerId);
-                devtools.classList.remove('open');
+                inspectorPanel.classList.remove('open');
                 loseScreen.classList.add('active');
             }
         }, 1000);
     }
 
+    // Кнопка Старт на приветственном экране
     document.getElementById('start-game-btn').addEventListener('click', () => {
         welcomeScreen.classList.remove('active');
+        updateProgress();
         startTimer();
     });
 
-    document.getElementById('win-done-btn').addEventListener('click', () => {
-        console.log('QA_GAME_EVENT: WIN_CONFIRMED');
-        window.parent.postMessage({ type: 'QA_GAME_FINISHED', status: 'SUCCESS' }, '*');
+    // Закрытие инспектора при клике мимо него
+    document.addEventListener('click', (e) => {
+        if (!inspectorPanel.contains(e.target)) {
+            inspectorPanel.classList.remove('open');
+            state.activeBugId = null;
+        }
     });
 
+    // === НОВАЯ СИСТЕМНАЯ ПОЛИТИКА ИНТЕГРАЦИИ ===
+
+    // ПОБЕДА: Передаем сигнал завершения фронтендеру в родительское окно
+    document.getElementById('win-done-btn').addEventListener('click', () => {
+        window.parent.postMessage({ type: "game_completed" }, "*");
+    });
+
+    // ПОРАЖЕНИЕ: Полный мягкий сброс сессии без отправки каких-либо данных наружу
     document.getElementById('lose-done-btn').addEventListener('click', () => {
-        console.log('QA_GAME_EVENT: LOSE_ACKNOWLEDGED');
-        window.parent.postMessage({ type: 'QA_GAME_FINISHED', status: 'TIMEOUT' }, '*');
+        location.reload();
     });
 
 })();
