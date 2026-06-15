@@ -11,7 +11,7 @@
         {
             // РАУНД 1 (Студенты, 3 параметра)
             table: "FTI_STUDENTS",
-            taskHTML: "Найти студента: <br><strong>КУРС = 3 | БЕЗ ОЧКОВ | С БОРОДОЙ</strong>",
+            taskHTML: "Найти студента: <br><strong>КУРС = 3 , БЕЗ ОЧКОВ , С БОРОДОЙ</strong>",
             targetConditions: ["c_course", "c_glasses", "c_beard"],
             targetLength: 7, 
             cards: [
@@ -41,7 +41,7 @@
         {
             // РАУНД 2 (Машины, 4 параметра)
             table: "TRANSPORT_FLEET",
-            taskHTML: "Найти машину из парка: <br><strong>BMW | ЧЕРНЫЙ | 2023 | АВТОПИЛОТ ЕСТЬ</strong>",
+            taskHTML: "Найти машину из парка: <br><strong>BMW , ЧЕРНЫЙ , 2023 , АВТОПИЛОТ ЕСТЬ</strong>",
             targetConditions: ["c_brand", "c_color", "c_year", "c_auto"],
             targetLength: 9, 
             cards: [
@@ -72,7 +72,7 @@
         {
             // РАУНД 3 (Библиотеки, 5 параметров)
             table: "DEV_LIBRARIES",
-            taskHTML: "Найти фреймворк: <br><strong>ЯЗЫК: JS | ТИП: UI | ГОД: 2023 | TS_SUPPORT | АКТИВНА</strong>",
+            taskHTML: "Найти фреймворк: <br><strong>ЯЗЫК: JS , ТИП: UI , ГОД: 2023 , TS_SUPPORT , АКТИВНА</strong>",
             targetConditions: ["c_lang", "c_type", "c_year", "c_ts", "c_active"],
             targetLength: 11, 
             cards: [
