@@ -6,13 +6,12 @@
         layout: { '1': null, '2': null, '3': null, '4': null, '5': null }
     };
 
-    // Оригинальные тексты слотов (для восстановления при очистке)
     const slotDescriptions = {
-        '1': 'Слот 1: Визуальный фокус',
-        '2': 'Слот 2: Контекст',
-        '3': 'Слот 3: Интерактив',
-        '4': 'Слот 4: Калькуляция',
-        '5': 'Слот 5: Завершение флоу'
+        '1': 'Слот 1: Графический якорь',
+        '2': 'Слот 2: Текстовый идентификатор',
+        '3': 'Слот 3: Метрика стоимости',
+        '4': 'Слот 4: Калибратор объема',
+        '5': 'Слот 5: Триггер транзакции'
     };
 
     const welcomeScreen = document.getElementById('welcome-screen');
@@ -256,12 +255,10 @@
         startTimer();
     });
 
-    // ПОБЕДА: отправляем postMessage во внешнюю систему
     document.getElementById('win-done-btn').addEventListener('click', () => {
         window.parent.postMessage({ type: "game_completed" }, "*");
     });
 
-    // ПОРАЖЕНИЕ: просто мягко перезапускаем игру для новой попытки без уведомления сайта
     document.getElementById('lose-done-btn').addEventListener('click', () => {
         location.reload();
     });
