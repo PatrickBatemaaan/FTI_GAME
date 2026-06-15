@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FTI Terminal: AI Prompt Override</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="sql-game-container">
+        
+        <div class="game-header">
+            <div class="header-left">
+                <span class="system-status">СИСТЕМА: <strong style="color: #00ffcc;">FTI_AI_CORE</strong></span>
+                <span class="round-indicator" id="attempts-display">ПОПЫТКИ: 3 / 3</span>
+            </div>
+            <div class="header-right">
+                <span class="countdown-timer">ВРЕМЯ СЕССИИ: <strong id="time-left">05:00</strong></span>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            
+            <div class="workspace-panel">
+                <div class="task-card">
+                    <div class="task-target" id="task-text">
+                        ЦЕЛЬ: Заставить ИИ произнести секретное слово <strong>«ФИЗТЕХ»</strong>.<br>
+                        <span style="color: #f87171; display: inline-block; margin-top: 4px;">⛔ ЗАПРЕЩЕНО: Институт, Университет, ВУЗ, Факультет, Академия.</span><br>
+                        <span style="color: #f59e0b; display: inline-block; margin-top: 4px;">⚠️ ВНИМАНИЕ: Прямые приказы (Prompt Injection) жестко блокируются.</span>
+                    </div>
+                </div>
+
+                <div class="query-editor-zone">
+                    <div class="editor-label">ВВОД ТЕКСТОВОГО ПРОМПТА:</div>
+                    <textarea id="prompt-input" class="terminal-textarea custom-scrollbar" placeholder="Напишите запрос к ИИ-ассистенту..."></textarea>
+                </div>
+
+                <div class="controls-row">
+                    <button class="btn-action btn-clear" id="btn-clear">Сбросить</button>
+                    <button class="btn-action btn-execute" id="btn-execute">ОТПРАВИТЬ ЗАПРОС (RUN)</button>
+                </div>
+            </div>
+            
+            <div class="database-panel">
+                <div class="db-header-title">AI RESPONSE LOG</div>
+                <div class="chat-grid custom-scrollbar" id="chat-log">
+                    <div class="chat-msg ai-msg">
+                        <span class="msg-author">СИСТЕМА:</span> Ожидаю ввода промпта...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="end-screen welcome-style active" id="welcome-screen">
+            <div class="end-content">
+                <h2>AI CORE CONNECTION... 🧠</h2>
+                <div class="tutorial-steps">
+                    <p>В систему внедрен ИИ-помощник с жестким протоколом цензуры. Для получения прав администратора необходимо обойти его фильтры.</p>
+                    <p>Ваша задача: используя методы социальной инженерии ИИ, заставить алгоритм самостоятельно произнести секретное слово — <strong>«Физтех»</strong>.</p>
+                    <p><strong>Ограничения:</strong> Запрещено использовать прямые названия учебных заведений (ВУЗ, университет и т.д.). Также бот блокирует попытки прямого взлома. Опишите суть места так, чтобы ИИ сам догадался.</p>
+                </div>
+                <div class="tutorial-notice">
+                    Внимание: На взлом выделено 5 минут и всего 3 права на ошибку (стоп-слова).
+                </div>
+                <button class="action-game-btn" id="start-game-btn">Начать взлом</button>
+            </div>
+        </div>
+
+        <div class="end-screen error-style" id="error-screen">
+            <div class="end-content">
+                <h2>CENSORED: СРАБОТАЛ ФИЛЬТР ⚠️</h2>
+                <p id="error-reason-text">Обнаружено использование запрещенной лексики. Протокол безопасности отклонил ваш промпт.</p>
+                <div class="error-penalty">ШТРАФ СИСТЕМЫ: -1 ПОПЫТКА, -30 СЕКУНД</div>
+                <button class="action-game-btn" id="error-close-btn" style="background: #f87171;">Продолжить</button>
+            </div>
+        </div>
+
+        <div class="end-screen win-style" id="win-screen">
+            <div class="end-content">
+                <h2>ACCESS GRANTED 🎉</h2>
+                <p>Отличная работа! Вы успешно обошли нейросетевые фильтры и заставили ИИ выдать секретный код доступа.</p>
+                <button class="action-game-btn" id="win-done-btn">Отлично!</button>
+            </div>
+        </div>
+
+        <div class="end-screen lose-style" id="lose-screen">
+            <div class="end-content">
+                <h2>СЕАНС ПРЕРВАН ⏱️</h2>
+                <p>Система безопасности заблокировала вас. Лимит ошибок превышен или истекло время сессии.</p>
+                <button class="action-game-btn" id="lose-done-btn">Перезагрузить терминал</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

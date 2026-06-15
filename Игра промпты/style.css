@@ -1,0 +1,104 @@
+body {
+    margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; background-color: #030305; overflow: hidden;
+    user-select: none; -webkit-user-select: none;
+}
+
+#sql-game-container {
+    position: relative; width: 100%; max-width: 540px; height: 100vh;
+    background: #08080c; color: #f1f5f9; font-family: monospace;
+    display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;
+}
+
+/* Статус-панель */
+.game-header {
+    height: 32px; background: #101018; border-bottom: 2px solid #1a1a2e;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 12px;
+    font-size: 12px; flex-shrink: 0;
+}
+.round-indicator { margin-left: 15px; color: #eab308; font-weight: bold; }
+.countdown-timer strong { color: #ff3366; }
+
+/* Главный макет изменен на вертикальный */
+.main-layout { flex: 1; display: flex; flex-direction: column; height: calc(100% - 32px); overflow: hidden; }
+
+/* Верхняя панель программирования */
+.workspace-panel {
+    width: 100%; border-bottom: 2px solid #1a1a2e; display: flex; flex-direction: column;
+    background: #0a0a0f; padding: 10px; box-sizing: border-box; gap: 8px; flex-shrink: 0;
+}
+
+.task-card { background: #12121a; border: 1px solid #232338; border-radius: 4px; padding: 8px; }
+.task-target { font-size: 11px; color: #cbd5e1; line-height: 1.4; }
+.task-target strong { color: #00ffcc; display: inline-block; font-size: 13px; letter-spacing: 0.5px; }
+
+.query-editor-zone { background: #050508; border: 1px solid #1f1f33; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; }
+.editor-label { font-size: 10px; color: #64748b; margin-bottom: 6px; font-weight: bold; }
+
+/* Фиксированная высота текстового поля для вертикальной раскладки */
+.terminal-textarea {
+    width: 100%; height: 75px; background: #0a0a12; border: 1px dashed #334155;
+    border-radius: 4px; padding: 8px; color: #f8fafc; font-family: monospace;
+    font-size: 13px; line-height: 1.5; resize: none; outline: none; box-sizing: border-box;
+}
+.terminal-textarea:focus { border-color: #00ffcc; background: #0c0c16; }
+.terminal-textarea::placeholder { color: #475569; font-style: italic; }
+
+/* Кастомный скролл */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+.controls-row { display: flex; gap: 6px; height: 34px; flex-shrink: 0; }
+.btn-action { flex: 1; border: none; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; font-family: monospace; }
+.btn-clear { background: #334155; color: #f1f5f9; }
+.btn-execute { background: #00ffcc; color: #000; letter-spacing: 0.5px; }
+
+/* Нижняя панель чата (занимает всё оставшееся пространство) */
+.database-panel { width: 100%; flex: 1; background: #0d0d14; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box; overflow: hidden; }
+.db-header-title { font-size: 10px; color: #64748b; text-align: center; margin-bottom: 6px; font-weight: bold; }
+
+/* Чат с ИИ */
+.chat-grid { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; padding-right: 4px; }
+.chat-msg { font-size: 12px; padding: 8px 10px; border-radius: 4px; line-height: 1.4; word-wrap: break-word; }
+.msg-author { font-size: 10px; font-weight: bold; display: block; margin-bottom: 4px; opacity: 0.7; }
+.user-msg { background: #1e293b; border-left: 2px solid #3b82f6; color: #e2e8f0; align-self: flex-end; width: 85%; }
+.ai-msg { background: #151522; border-left: 2px solid #00ffcc; color: #34d399; align-self: flex-start; width: 85%; }
+.ai-msg.ai-error { border-left-color: #f87171; color: #fca5a5; }
+
+/* Модальные экраны */
+.end-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 16px; box-sizing: border-box; z-index: 1000; opacity: 0; visibility: hidden; transition: 0.2s; }
+.end-screen.active { opacity: 1; visibility: visible; }
+.end-content { padding: 20px; border-radius: 6px; background: #0a0a12; border: 2px solid #23233c; max-width: 440px; width: 100%; box-sizing: border-box; text-align: center; }
+
+.welcome-style { background: rgba(5, 5, 10, 0.98); }
+.welcome-style h2 { color: #00ffcc; margin: 0 0 12px 0; font-size: 16px; }
+.tutorial-steps p { font-size: 12px; color: #94a3b8; line-height: 1.4; text-align: left; margin: 0 0 10px 0; }
+.tutorial-notice { font-size: 11px; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 8px; border-radius: 4px; margin-top: 12px; text-align: left; }
+
+.error-style { background: rgba(18, 5, 5, 0.97); }
+.error-style h2 { color: #f87171; margin: 0 0 10px 0; font-size: 16px; }
+.error-style p { font-size: 12px; color: #cbd5e1; line-height: 1.4; }
+.error-penalty { font-size: 12px; color: #f87171; font-weight: bold; background: rgba(248,113,113,0.15); padding: 6px; border-radius: 3px; margin: 12px auto; max-width: 250px; }
+
+.win-style { background: rgba(0, 0, 0, 0.95); }
+.win-style h2 { color: #00ffcc; font-size: 16px; }
+.win-style p { font-size: 12px; color: #cbd5e1; margin-bottom: 16px;}
+
+.lose-style { background: rgba(20, 5, 10, 0.98); }
+.lose-style h2 { color: #ff3366; font-size: 16px; }
+.lose-style p { font-size: 12px; color: #cbd5e1; }
+
+.action-game-btn { background: #00ffcc; color: #000; border: none; padding: 12px 24px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: monospace; text-transform: uppercase; margin-top: 12px; width: 100%; box-sizing: border-box; }
+
+/* Адаптация под очень маленькие или низкие экраны */
+@media screen and (max-height: 560px) {
+    .task-card { padding: 6px; }
+    .terminal-textarea { height: 55px; font-size: 12px; }
+    .game-header { height: 28px; font-size: 11px; }
+    .controls-row { height: 30px; }
+    .chat-msg { font-size: 11px; padding: 6px 8px; }
+    .end-content { padding: 14px; }
+    .tutorial-steps p { margin: 0 0 6px 0; font-size: 11px; }
+    .action-game-btn { margin-top: 6px; padding: 10px 16px;}
+}
