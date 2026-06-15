@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A/B Лаборатория</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="orientation-warning">
+    <div class="warning-animation">📱</div>
+    <p>Пожалуйста, переверните устройство в горизонтальный режим</p>
+</div>
+
+<div id="game-container">
+    <div id="main-game" class="hidden main-layout">
+        <div class="left-panel">
+            <header class="game-header">
+                <div class="level-indicator" id="level-display">КЕЙС: 1 / 3</div>
+                <div class="lives-indicator">Попытки: <span id="lives-display">3</span></div>
+            </header>
+            <div class="task-card">
+                <div class="task-title">Вводная от маркетинга:</div>
+                <div class="task-desc" id="task-text"></div>
+            </div>
+            <div class="carousel-hint">
+                <span class="hint-icon">↔</span> Свайпай варианты
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="screens-carousel" id="carousel"></div>
+        </div>
+    </div>
+
+    <div id="welcome-screen" class="screen-overlay active welcome-style">
+        <div class="modal-content">
+            <h2>Лаборатория A/B Тестов</h2>
+            <div class="tutorial-steps">
+                <p>Маркетинг принес дизайны. Выбери вариант с лучшей конверсией для заданной аудитории.</p>
+            </div>
+            <button id="btn-start" class="action-btn">НАЧАТЬ ТЕСТ</button>
+        </div>
+    </div>
+
+    <div id="reason-modal" class="screen-overlay hidden transition-style">
+        <div class="modal-content reason-content">
+            <h2>ОБОСНОВАНИЕ</h2>
+            <p>Почему этот вариант лучше?</p>
+            <div id="reasons-container" class="reasons-list"></div>
+            <button id="btn-close-reason" class="action-btn btn-clear">Отмена</button>
+        </div>
+    </div>
+
+    <div id="success-screen" class="screen-overlay hidden success-style">
+        <div class="modal-content">
+            <h2>ОТЛИЧНОЕ РЕШЕНИЕ!</h2>
+            <div class="success-explanation">
+                <span class="success-icon">📈</span>
+                <p id="success-text"></p>
+            </div>
+            <button id="btn-next-level" class="action-btn">СЛЕДУЮЩИЙ КЕЙС</button>
+        </div>
+    </div>
+    <div id="success-screen" class="screen-overlay hidden success-style">
+        <div class="modal-content">
+            <h2>ОТЛИЧНОЕ РЕШЕНИЕ!</h2>
+            <div class="success-explanation">
+                <span class="success-icon">📈</span>
+                <p id="success-text">Объяснение...</p>
+            </div>
+            <button id="btn-next-level" class="action-btn">СЛЕДУЮЩИЙ КЕЙС</button>
+        </div>
+    </div>
+    <div id="error-screen" class="screen-overlay hidden error-style">
+        <div class="modal-content">
+            <h2>ОШИБКА КОНВЕРСИИ</h2>
+            <p id="error-text"></p>
+            <div class="error-penalty">Штраф: -1 попытка</div>
+            <button id="btn-retry" class="action-btn">ПРОДОЛЖИТЬ</button>
+        </div>
+    </div>
+
+    <div id="win-screen" class="screen-overlay hidden win-style">
+        <div class="modal-content">
+            <h2>ПОБЕДА!</h2>
+            <p>Все кейсы закрыты. Конверсия на максимуме.</p>
+            <button id="btn-win-done" class="action-btn">ЗАВЕРШИТЬ</button>
+        </div>
+    </div>
+
+    <div id="lose-screen" class="screen-overlay hidden lose-style">
+        <div class="modal-content">
+            <h2>ПРОЕКТ ЗАКРЫТ</h2>
+            <p>Лимит ошибок исчерпан.</p>
+            <button id="btn-lose-done" class="action-btn">НАЧАТЬ ЗАНОВО</button>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+body {
+    margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; background-color: #030305; overflow: hidden;
+    font-family: monospace; user-select: none; -webkit-user-select: none; touch-action: none;
+}
+
+#game-container {
+    position: relative; width: 100%; max-width: 900px; height: 100vh; max-height: 460px;
+    background: #08080c; color: #f1f5f9; display: flex; box-sizing: border-box; overflow: hidden;
+}
+
+.hidden { display: none !important; }
+
+/* Разделение экрана на две панели */
+.main-layout { display: flex; width: 100%; height: 100%; }
+
+/* Левая панель (Задача) */
+.left-panel {
+    width: 35%; border-right: 2px solid #1a1a2e; background: #0a0a0f;
+    display: flex; flex-direction: column; padding: 10px; box-sizing: border-box; gap: 10px;
+}
+
+.game-header {
+    background: #101018; border-bottom: 1px solid #1a1a2e; padding: 6px; border-radius: 4px;
+    display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;
+}
+.level-indicator { color: #00ffcc; }
+.lives-indicator { color: #ff3366; }
+
+.task-card { background: #12121a; border: 1px solid #232338; border-radius: 4px; padding: 10px; flex: 1; }
+.task-title { font-size: 10px; color: #64748b; margin-bottom: 6px; font-weight: bold; }
+.task-desc { font-size: 12px; color: #cbd5e1; line-height: 1.4; }
+
+.carousel-hint {
+    background: #050508; border: 1px dashed #334155; border-radius: 4px;
+    padding: 8px; text-align: center; font-size: 10px; color: #64748b;
+}
+.hint-icon { font-size: 14px; color: #00ffcc; display: block; margin-bottom: 2px; }
+
+/* Правая панель (Карусель) */
+.right-panel { width: 65%; background: #0d0d14; display: flex; flex-direction: column; }
+
+.screens-carousel {
+    flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    gap: 15px; padding: 15px; scrollbar-width: none; align-items: center;
+}
+.screens-carousel::-webkit-scrollbar { display: none; }
+
+/* Карточка дизайна (Мокап - пропорции смартфона в рамке) */
+.mockup-card {
+    scroll-snap-align: center; flex: 0 0 165px; height: 95%; max-height: 390px;
+    background: #1e293b; border-radius: 14px; display: flex; flex-direction: column;
+    overflow: hidden; border: 3px solid #2a2a40; box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.mockup-header { padding: 5px; text-align: center; background: #101018; color: #64748b; font-size: 9px; font-weight: bold; border-bottom: 1px solid #1a1a2e; }
+.mockup-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; position: relative; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+.select-btn-wrap { padding: 6px; background: #101018; border-top: 1px solid #1a1a2e; }
+.select-mockup-btn { width: 100%; padding: 8px; border-radius: 4px; background: #00ffcc; color: #000; font-size: 10px; font-weight: bold; border: none; cursor: pointer; font-family: monospace; text-transform: uppercase; }
+
+.success-style { background: rgba(5, 20, 10, 0.96); }
+.success-style .modal-content { background: #0a0a12; border-color: #22c55e; }
+.success-style h2 { color: #22c55e; font-size: 16px; margin: 0 0 10px 0; }
+.success-explanation { 
+    display: flex; gap: 10px; align-items: center; 
+    background: rgba(34, 197, 94, 0.1); 
+    padding: 10px; border-radius: 6px; 
+    margin-bottom: 15px;
+}
+.success-icon { font-size: 24px; }
+.success-explanation p { 
+    font-size: 11px; color: #e2e8f0; 
+    margin: 0; text-align: left; line-height: 1.4; 
+}
+
+/* ==========================================================================
+   ВЫСОКОДЕТАЛИЗИРОВАННЫЕ ШАБЛОНЫ ЭКРАНОВ (КЕЙСЫ)
+   ========================================================================== */
+
+/* --- КЕЙС 1: АВТОРИЗАЦИЯ --- */
+/* Вариант А: Сверх-минимализм (Неверный) */
+.ui-case1-hipster { background: #000; height: 100%; padding: 12px; display: flex; flex-direction: column; justify-content: center; gap: 8px; align-items: center; }
+.ui-case1-hipster .dot-logo { width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 0 8px #fff; }
+.ui-case1-hipster .line-input { width: 85%; border: none; border-bottom: 1px solid #333; background: transparent; height: 12px; }
+.ui-case1-hipster .btn-minimal { background: none; border: 1px solid #fff; color: #fff; font-size: 8px; padding: 4px 12px; border-radius: 10px; margin-top: 10px; }
+
+/* Вариант Б: Web3 Кошелек (Неверный) */
+.ui-case1-crypto { background: #0d0e12; height: 100%; padding: 12px; display: flex; flex-direction: column; justify-content: center; gap: 6px; align-items: center; color: #fff; }
+.ui-case1-crypto .crypto-badge { width: 32px; height: 32px; background: linear-gradient(135deg, #8a2be2, #4a00e0); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.ui-case1-crypto .crypto-title { font-size: 9px; font-weight: bold; color: #94a3b8; text-align: center; }
+.ui-case1-crypto .wallet-btn { background: #6366f1; color: white; border: none; width: 100%; padding: 6px; border-radius: 6px; font-size: 9px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(99,102,241,0.3); }
+
+/* Вариант В: Доступный / Крупный (Правильный) */
+.ui-case1-accessible { background: #f8fafc; height: 100%; padding: 10px; display: flex; flex-direction: column; gap: 8px; justify-content: flex-start; color: #000; }
+.ui-case1-accessible .big-header { font-size: 14px; font-weight: 900; color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; text-align: center; }
+.ui-case1-accessible .huge-label { font-size: 10px; font-weight: bold; color: #475569; }
+.ui-case1-accessible .huge-input { background: #fff; border: 2px solid #94a3b8; border-radius: 8px; padding: 8px; font-size: 13px; font-weight: bold; text-align: center; color: #000; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+.ui-case1-accessible .huge-btn { background: #22c55e; color: #fff; border: none; padding: 12px; font-size: 13px; font-weight: 900; border-radius: 8px; text-align: center; cursor: pointer; box-shadow: 0 4px 0 #16a34a; margin-top: auto; letter-spacing: 0.5px; }
+
+
+/* --- КЕЙС 2: ОФОРМЛЕНИЕ ЗАКАЗА --- */
+/* Вариант А: Сложная анкета (Неверный) */
+.ui-case2-form { background: #fff; height: 100%; padding: 8px; display: flex; flex-direction: column; gap: 5px; color: #334155; }
+.ui-case2-form .step-bar { display: flex; justify-content: space-between; font-size: 7px; background: #f1f5f9; padding: 3px; border-radius: 4px; font-weight: bold; color: #64748b; }
+.ui-case2-form .step-bar .active { color: #3b82f6; }
+.ui-case2-form .input-group { display: flex; flex-direction: column; gap: 2px; }
+.ui-case2-form .micro-label { font-size: 7px; font-weight: bold; color: #64748b; }
+.ui-case2-form .micro-input { border: 1px solid #cbd5e1; height: 14px; border-radius: 3px; background: #f8fafc; }
+.ui-case2-form .next-btn { background: #cbd5e1; border: none; height: 20px; border-radius: 4px; font-size: 9px; font-weight: bold; color: #fff; margin-top: auto; }
+
+/* Вариант Б: Быстрая оплата (Правильный) */
+.ui-case2-instant { background: #f3f4f6; height: 100%; padding: 10px; display: flex; flex-direction: column; gap: 8px; justify-content: flex-end; }
+.ui-case2-instant .food-hero { flex: 1; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23fecdd3"/><path d="M30 50 Q50 20 70 50 Z" fill="%23f43f5e"/></svg>') no-center; background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; display: flex; align-items: flex-end; padding: 6px; }
+.ui-case2-instant .food-title { color: #1f2937; font-size: 11px; font-weight: 800; background: rgba(255,255,255,0.9); padding: 2px 4px; border-radius: 3px; }
+.ui-case2-instant .apple-pay-btn { background: #000; color: #fff; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+/* Вариант В: Договор-соглашение (Неверный) */
+.ui-case2-legal { background: #fff; height: 100%; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.ui-case2-legal .legal-box { flex: 1; border: 1px solid #e2e8f0; border-radius: 4px; background: #f8fafc; padding: 4px; font-size: 6px; color: #94a3b8; text-align: justify; overflow: hidden; line-height: 1.2; }
+.ui-case2-legal .check-row { display: flex; align-items: center; gap: 4px; font-size: 7px; color: #334155; font-weight: bold; }
+.ui-case2-legal .check-box { width: 8px; height: 8px; border: 1px solid #cbd5e1; border-radius: 2px; }
+.ui-case2-legal .action-btn-legal { background: #3b82f6; color: white; border: none; padding: 4px; font-size: 9px; font-weight: bold; border-radius: 3px; text-align: center; }
+
+
+/* --- КЕЙС 3: B2B ДАШБОРД --- */
+/* Вариант А: Трендовый Dribbble лендинг (Неверный - красивый, но пустой) */
+.ui-case3-dribbble { background: #111827; height: 100%; padding: 10px; display: flex; flex-direction: column; gap: 8px; color: #fff; justify-content: space-between; }
+.ui-case3-dribbble .fancy-header { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #94a3b8; }
+.ui-case3-dribbble .fancy-header .avatar { width: 12px; height: 12px; background: #38bdf8; border-radius: 50%; }
+.ui-case3-dribbble .main-stat-card { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #334155; border-radius: 8px; padding: 10px; text-align: center; position: relative; overflow: hidden; }
+.ui-case3-dribbble .main-stat-card::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 12px; background: linear-gradient(to top, rgba(56,189,248,0.2), transparent); }
+.ui-case3-dribbble .huge-percent { font-size: 24px; font-weight: 900; color: #38bdf8; text-shadow: 0 0 10px rgba(56,189,248,0.3); }
+.ui-case3-dribbble .sub-lbl { font-size: 7px; color: #64748b; font-weight: bold; text-transform: uppercase; }
+.ui-case3-dribbble .smooth-chart-mock { height: 15px; background: linear-gradient(90deg, #38bdf8 0%, #a855f7 100%); clip-path: polygon(0 100%, 20% 40%, 40% 60%, 60% 20%, 80% 50%, 100% 10%, 100% 100%); opacity: 0.3; }
+
+/* Вариант Б: Плотный терминал/таблица (Правильный - выглядит перегруженно и "пугающе") */
+.ui-case3-terminal { background: #0b0f19; height: 100%; padding: 6px; display: flex; flex-direction: column; gap: 4px; color: #00ff66; font-family: monospace; }
+.ui-case3-terminal .system-bar { font-size: 7px; color: #475569; border-bottom: 1px solid #1e293b; padding-bottom: 2px; display: flex; justify-content: space-between; }
+.ui-case3-terminal .grid-mini-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.ui-case3-terminal .metric-box { background: #111827; border: 1px solid #1e293b; padding: 2px; font-size: 7px; border-radius: 2px; }
+.ui-case3-terminal .metric-box span { color: #fff; font-weight: bold; display: block; font-size: 8px; }
+.ui-case3-terminal .dense-table { flex: 1; border: 1px solid #1e293b; border-radius: 2px; display: flex; flex-direction: column; background: #070a12; font-size: 6px; }
+.ui-case3-terminal .table-header-row { background: #111827; display: flex; justify-content: space-between; padding: 2px; color: #64748b; font-weight: bold; border-bottom: 1px solid #1e293b; }
+.ui-case3-terminal .table-data-row { display: flex; justify-content: space-between; padding: 2px; border-bottom: 1px solid #0d1527; color: #e2e8f0; }
+.ui-case3-terminal .table-data-row .neg-val { color: #ef4444; }
+.ui-case3-terminal .table-data-row .pos-val { color: #10b981; }
+.ui-case3-terminal .sparkline-container { width: 25px; height: 6px; background: rgba(0,255,102,0.1); border-left: 1px solid #00ff66; }
+
+/* Вариант В: AI-Кликер (Неверный - хайповый, но бестолковый) */
+.ui-case3-ai { background: #fafafa; height: 100%; padding: 10px; display: flex; flex-direction: column; gap: 6px; justify-content: center; align-items: center; color: #000; }
+.ui-case3-ai .ai-bubble { background: #e0f2fe; color: #0369a1; font-size: 8px; padding: 6px; border-radius: 8px 8px 8px 0; max-width: 90%; font-weight: 500; line-height: 1.3; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.ui-case3-ai .magic-spark { font-size: 16px; margin: 4px 0; animation: bounce 1.5s infinite ease-in-out; }
+.ui-case3-ai .ai-btn { background: linear-gradient(95deg, #06b6d4, #3b82f6); color: white; border: none; padding: 10px; border-radius: 20px; font-size: 9px; font-weight: bold; width: 100%; box-shadow: 0 4px 10px rgba(59,130,246,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+
+/* --- СИСТЕМНЫЕ ОКНА И ЗАГЛУШКА --- */
+.orientation-warning { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08080c; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; box-sizing: border-box; }
+@media (orientation: portrait) { .orientation-warning { display: flex; } }
+.warning-animation { font-size: 36px; animation: rotate 2s infinite ease-in-out; margin-bottom: 10px;}
+@keyframes rotate { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
+
+.screen-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; z-index: 1000; transition: 0.2s; }
+.modal-content { padding: 18px; border-radius: 6px; border: 2px solid #23233c; max-width: 450px; width: 100%; box-sizing: border-box; text-align: center; }
+
+.welcome-style { background: rgba(5, 5, 10, 0.98); }
+.welcome-style .modal-content { background: #0a0a12; }
+.welcome-style h2 { color: #00ffcc; margin: 0 0 10px 0; font-size: 16px; }
+.tutorial-steps p { font-size: 11px; color: #94a3b8; line-height: 1.4; text-align: left; margin: 0 0 8px 0; }
+
+.error-style { background: rgba(18, 5, 5, 0.97); }
+.error-style .modal-content { background: #0a0a12; }
+.error-style h2 { color: #f87171; margin: 0 0 10px 0; font-size: 16px; }
+.error-style p { font-size: 11px; color: #cbd5e1; }
+.error-penalty { font-size: 12px; color: #f87171; font-weight: bold; background: rgba(248,113,113,0.15); padding: 6px; border-radius: 3px; margin: 10px auto; }
+
+.transition-style { background: rgba(5, 5, 10, 0.95); }
+.transition-style .modal-content { background: #0a0a12; }
+.transition-style h2 { color: #34d399; font-size: 16px; margin: 0 0 5px 0;}
+.transition-style p { font-size: 11px; color: #cbd5e1; margin: 0 0 10px 0;}
+
+.win-style { background: rgba(0, 0, 0, 0.95); }
+.win-style .modal-content { background: #0a0a12; border-color: #00ffcc;}
+.win-style h2 { color: #00ffcc; font-size: 16px; }
+.win-style p { font-size: 11px; color: #cbd5e1; }
+
+.lose-style { background: rgba(20, 5, 10, 0.98); }
+.lose-style .modal-content { background: #0a0a12; border-color: #ff3366;}
+.lose-style h2 { color: #ff3366; font-size: 16px; }
+.lose-style p { font-size: 11px; color: #cbd5e1; }
+
+.action-btn { background: #00ffcc; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 11px; font-family: monospace; text-transform: uppercase; margin-top: 10px; width: 100%; }
+.btn-clear { background: #334155; color: #f1f5f9; }
+
+.reason-content { max-width: 500px; padding: 15px; }
+.reasons-list { display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; padding-right: 5px;}
+.reason-btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 10px; border-radius: 4px; font-size: 11px; text-align: left; cursor: pointer; transition: 0.1s; font-family: sans-serif; line-height: 1.3;}
+.reason-btn:active { background: #00ffcc; color: #000; }
