@@ -1,0 +1,125 @@
+body {
+    margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; background-color: #030305; overflow: hidden;
+    user-select: none; -webkit-user-select: none; touch-action: none;
+}
+
+#sql-game-container {
+    position: relative; width: 100%; max-width: 900px; height: 100vh; max-height: 460px;
+    background: #08080c; color: #f1f5f9; font-family: monospace;
+    display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;
+}
+
+/* Статус-панель (высота увеличена для читаемости) */
+.game-header {
+    height: 32px; background: #101018; border-bottom: 2px solid #1a1a2e;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 12px;
+    font-size: 12px;
+}
+.round-indicator { margin-left: 15px; color: #eab308; font-weight: bold; }
+.countdown-timer strong { color: #ff3366; }
+
+.main-layout { flex: 1; display: flex; height: calc(100% - 32px); }
+
+/* Левая панель программирования */
+.workspace-panel {
+    width: 45%; border-right: 2px solid #1a1a2e; display: flex; flex-direction: column;
+    background: #0a0a0f; padding: 8px; box-sizing: border-box; gap: 8px;
+}
+
+.task-card { background: #12121a; border: 1px solid #232338; border-radius: 4px; padding: 8px; }
+.task-target { font-size: 11px; color: #cbd5e1; line-height: 1.4; }
+.task-target strong { color: #00ffcc; display: block; margin-top: 4px; font-size: 13px; letter-spacing: 0.5px; }
+
+.query-editor-zone { background: #050508; border: 1px solid #1f1f33; border-radius: 4px; padding: 6px; }
+.editor-label { font-size: 10px; color: #64748b; margin-bottom: 4px; font-weight: bold; }
+.query-display { min-height: 38px; background: #0a0a12; border-radius: 4px; padding: 4px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; border: 1px dashed #334155; }
+.query-placeholder { font-size: 11px; color: #475569; font-style: italic; }
+
+.blocks-section { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+.blocks-pool { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; align-content: flex-start; padding-right: 2px; }
+
+/* Увеличенные SQL блоки-токены */
+.sql-token {
+    padding: 6px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;
+    cursor: pointer; background: #1e293b; border: 1px solid #334155; color: #f8fafc; transition: 0.1s;
+}
+.core-syntax { background: #1d4ed8; border-color: #3b82f6; }
+.condition { background: #047857; border-color: #10b981; }
+.logical { background: #b45309; border-color: #f59e0b; }
+.distractor { background: #4c1d95; border-color: #7c3aed; }
+.in-editor { opacity: 0.15; pointer-events: none; }
+
+.controls-row { display: flex; gap: 6px; height: 32px; }
+.btn-action { flex: 1; border: none; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; font-family: monospace; }
+.btn-clear { background: #334155; color: #f1f5f9; }
+.btn-execute { background: #00ffcc; color: #000; letter-spacing: 0.5px; }
+
+/* Правая панель базы данных */
+.database-panel { width: 55%; background: #0d0d14; display: flex; flex-direction: column; padding: 8px; box-sizing: border-box; }
+.db-header-title { font-size: 10px; color: #64748b; text-align: center; margin-bottom: 6px; font-weight: bold; }
+.students-grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; overflow-y: auto; }
+
+/* Карточки досье */
+.data-card {
+    background: #151522; border: 1px solid #2a2a40; border-radius: 4px;
+    display: flex; flex-direction: column; padding: 4px 6px; position: relative; box-sizing: border-box; justify-content: flex-start;
+}
+.data-meta { font-size: 11px; color: #38bdf8; border-bottom: 1px solid #232338; padding-bottom: 4px; margin-bottom: 4px; text-align: center; font-weight: bold; }
+
+.visual-indicators { display: flex; flex-direction: column; gap: 2px; width: 100%; }
+.indicator-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; background: #0a0a10; padding: 2px 4px; border-radius: 2px; }
+.ind-label { color: #94a3b8; }
+.ind-value { font-weight: bold; padding: 0 3px; border-radius: 2px; font-size: 9px; }
+.val-true { background: #064e3b; color: #34d399; }
+.val-false { background: #7f1d1d; color: #f87171; }
+.val-neutral { background: #1e3a8a; color: #60a5fa; }
+
+.filtered-out { opacity: 0.1; filter: grayscale(1); }
+.target-locked { border-color: #00ffcc; background: #092e2b; box-shadow: inset 0 0 10px rgba(0,255,204,0.3); }
+
+/* Системные экраны */
+.orientation-warning { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08080c; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; box-sizing: border-box; }
+@media (orientation: portrait) { .orientation-warning { display: flex; } }
+.warning-animation { font-size: 36px; animation: rotate 2s infinite ease-in-out; margin-bottom: 10px;}
+@keyframes rotate { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
+
+.end-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; z-index: 1000; opacity: 0; visibility: hidden; transition: 0.2s; }
+.end-screen.active { opacity: 1; visibility: visible; }
+.end-content { padding: 18px; border-radius: 6px; background: #0a0a12; border: 2px solid #23233c; max-width: 500px; width: 100%; box-sizing: border-box; text-align: center; }
+
+.welcome-style { background: rgba(5, 5, 10, 0.98); }
+.welcome-style h2 { color: #00ffcc; margin: 0 0 10px 0; font-size: 16px; }
+.tutorial-steps p { font-size: 11px; color: #94a3b8; line-height: 1.4; text-align: left; margin: 0 0 8px 0; }
+.tutorial-notice { font-size: 10px; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 6px; border-radius: 4px; margin-top: 10px; }
+
+.error-style { background: rgba(18, 5, 5, 0.97); }
+.error-style h2 { color: #f87171; margin: 0 0 10px 0; font-size: 16px; }
+.error-style p { font-size: 11px; color: #cbd5e1; line-height: 1.4; }
+.error-penalty { font-size: 12px; color: #f87171; font-weight: bold; background: rgba(248,113,113,0.15); padding: 6px; border-radius: 3px; margin: 10px auto; max-width: 250px; }
+
+.transition-style { background: rgba(5, 5, 10, 0.95); }
+.transition-style h2 { color: #34d399; font-size: 16px; }
+.transition-style p { font-size: 11px; color: #cbd5e1; }
+
+.win-style { background: rgba(0, 0, 0, 0.95); }
+.win-style h2 { color: #00ffcc; font-size: 16px; }
+.win-style p { font-size: 11px; color: #cbd5e1; }
+
+.lose-style { background: rgba(20, 5, 10, 0.98); }
+.lose-style h2 { color: #ff3366; font-size: 16px; }
+.lose-style p { font-size: 11px; color: #cbd5e1; }
+
+.action-game-btn { background: #00ffcc; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 11px; font-family: monospace; text-transform: uppercase; margin-top: 12px; }
+
+/* Оптимизация под сверхнизкие экраны (сохраняем читаемый размер за счет плотности) */
+@media screen and (max-height: 400px) {
+    .sql-token { padding: 5px 6px; font-size: 10px; }
+    .indicator-row { font-size: 9px; padding: 1px 3px; }
+    .data-meta { font-size: 10px; margin-bottom: 2px; }
+    .task-card { padding: 5px; }
+    .query-display { min-height: 32px; padding: 2px; }
+    .data-card { padding: 3px; }
+    .game-header { height: 28px; font-size: 11px; }
+    .controls-row { height: 28px; }
+}

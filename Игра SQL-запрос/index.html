@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape">
+    <title>FTI Home-Terminal: SQL Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="sql-game-container">
+        
+        <div class="game-header">
+            <div class="header-left">
+                <span class="system-status">СИСТЕМА: <strong style="color: #00ffcc;">REMOTE_HOME_ACCESS</strong></span>
+                <span class="round-indicator" id="round-display">РАУНД: 1 / 3</span>
+            </div>
+            <div class="header-right">
+                <span class="countdown-timer">ВРЕМЯ СЕССИИ: <strong id="time-left">05:00</strong></span>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            
+            <div class="workspace-panel">
+                
+                <div class="task-card">
+                    <div class="task-target" id="task-text">
+                        </div>
+                </div>
+
+                <div class="query-editor-zone">
+                    <div class="editor-label">ВАШ SQL КОД (ТАПАЙТЕ ПО БЛОКАМ):</div>
+                    <div class="query-display" id="query-display">
+                        <span class="query-placeholder">Строка пуста...</span>
+                    </div>
+                </div>
+
+                <div class="blocks-section">
+                    <div class="blocks-pool" id="blocks-pool">
+                        </div>
+                </div>
+
+                <div class="controls-row">
+                    <button class="btn-action btn-clear" id="btn-clear">Сбросить код</button>
+                    <button class="btn-action btn-execute" id="btn-execute">ЗАПУСТИТЬ ФИЛЬТР (RUN)</button>
+                </div>
+            </div>
+            
+            <div class="database-panel">
+                <div class="db-header-title">CURRENT DATABASE SET</div>
+                <div class="students-grid" id="data-grid">
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="orientation-warning">
+            <div class="warning-animation">🔄</div>
+            <p>Переверните телефон горизонтально (Ландшафтный режим).</p>
+        </div>
+
+        <div class="end-screen welcome-style active" id="welcome-screen">
+            <div class="end-content">
+                <h2>INCOMING CONNECTION... 🔒</h2>
+                <div class="tutorial-steps">
+                    <p>Вы сидите у себя дома, когда на ваш зашифрованный канал связи поступает экстренный запрос. Службе безопасности срочно нужна помощь в фильтрации баз данных.</p>
+                    <p>Вам предстоит удаленно проанализировать 3 таблицы через защищенный терминал. Сложность будет возрастать: от поиска студента до сложной выборки IT-библиотек.</p>
+                    <p><strong>Шпаргалка SQL:</strong><br>
+                    <span style="color:#00ffcc">SELECT...</span> (Где ищем) ➔ <span style="color:#00ffcc">WHERE</span> (Условие) ➔ <span style="color:#00ffcc">AND</span> (Связка условий)</p>
+                </div>
+                <div class="tutorial-notice">
+                    Внимание: Сессия активна ровно 5 минут. Ошибки отнимают время!
+                </div>
+                <button class="action-game-btn" id="start-game-btn">Подключиться к базе</button>
+            </div>
+        </div>
+
+        <div class="end-screen error-style" id="error-screen">
+            <div class="end-content">
+                <h2>СИНТАКСИЧЕСКАЯ ОШИБКА ⚠️</h2>
+                <p>Удаленный сервер не смог распознать структуру вашего SQL-запроса. Проверьте правильность цепочки операторов и условий выборки.</p>
+                <div class="error-penalty">ШТРАФ СИСТЕМЫ: -15 СЕКУНД</div>
+                <button class="action-game-btn" id="error-close-btn" style="background: #f87171;">Исправить код</button>
+            </div>
+        </div>
+
+        <div class="end-screen transition-style" id="transition-screen">
+            <div class="end-content">
+                <h2>БАЗА ОТФИЛЬТРОВАНА УСПЕШНО ✅</h2>
+                <p>Переходим к следующей таблице. Будьте внимательны, параметров стало больше.</p>
+                <button class="action-game-btn" id="next-round-btn">Следующий раунд</button>
+            </div>
+        </div>
+
+        <div class="end-screen win-style" id="win-screen">
+            <div class="end-content">
+                <h2>ALL SYSTEMS SECURED 🎉</h2>
+                <p>Отличная работа! Вы успешно отфильтровали все три базы данных, не выходя из комнаты. Вы настоящий мастер SQL-запросов.</p>
+                <button class="action-game-btn" id="win-done-btn">Завершить работу и отправить отчет</button>
+            </div>
+        </div>
+
+        <div class="end-screen lose-style" id="lose-screen">
+            <div class="end-content">
+                <h2>СЕАНС ПРЕРВАН: ВРЕМЯ ИСТЕКЛО ⏱️</h2>
+                <p>Удаленное подключение сброшено. Вы не успели обработать базы данных за отведенные 5 минут.</p>
+                <button class="action-game-btn" id="lose-done-btn">Перезагрузить терминал</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
